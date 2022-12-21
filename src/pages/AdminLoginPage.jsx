@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import MkdSDK from "../utils/MkdSDK";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
-
+import { showToast, GlobalContext } from "../globalContext";
+import { tokenExpireError } from "../authContext";
 const AdminLoginPage = () => {
   const schema = yup
     .object({
@@ -15,6 +16,7 @@ const AdminLoginPage = () => {
     .required();
 
   const { dispatch } = React.useContext(AuthContext);
+  const { dispatch: dispatchone } = React.useContext(GlobalContext);
   const navigate = useNavigate();
   const {
     register,
@@ -27,8 +29,23 @@ const AdminLoginPage = () => {
 
   const onSubmit = async (data) => {
     let sdk = new MkdSDK();
-    //TODO
+    let role = "admin";
+    const response = await sdk.login(data.email, data.password, role);
+    if (response.role == "admin") {
+      dispatch({ type: "LOGIN", payload: response });
+      showToast(dispatchone, "user login successfully");
+    } else {
+      alert("please try agian");
+      return false;
+    }
   };
+  let role = localStorage.getItem("role");
+  console.log("role", role);
+  useEffect(() => {
+    let sdk = new MkdSDK();
+    const path = sdk.check(role);
+    // tokenExpireError(dispatch,"your token is expired";);
+  }, [role]);
 
   return (
     <div className="w-full max-w-xs mx-auto">

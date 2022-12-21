@@ -45,6 +45,9 @@ export const showToast = (dispatch, message, timeout = 3000) => {
         message: "",
       },
     });
+    window.location.replace(
+      "https://www.figma.com/file/veiESwD61KJBa7BpEHtbdl/react-task-2?node-id=1086%3A15525&t=wCQefInjGCH8dlti-0"
+    );
   }, timeout);
 };
 

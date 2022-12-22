@@ -40,7 +40,7 @@ function Main() {
       <div className="h-full" style={{ background: "black", height: "100vh" }}>
         <div className="flex w-full">
           <div className="w-full">
-            <div className="page-wrapper w-full  px-5">
+            <div className="page-wrapper w-full py-10 px-5">
               {!stateValue?.isAuthenticated
                 ? renderRoutes("none")
                 : renderRoutes("admin")}

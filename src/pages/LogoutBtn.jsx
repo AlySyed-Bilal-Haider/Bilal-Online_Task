@@ -3,7 +3,9 @@ import { AuthContext } from "../authContext";
 function LogoutBtn() {
   const { dispatch } = useContext(AuthContext);
   const logoutHandle = () => {
+    let role = localStorage.getItem("role");
     dispatch({ type: "LOGOUT" });
+    window.location.href = "/" + role + "/login";
   };
   return (
     <div

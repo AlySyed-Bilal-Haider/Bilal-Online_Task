@@ -1,14 +1,14 @@
 import React from "react";
-
+import { Container } from "@mui/material";
 import DashboardTable from "./TableDashboard";
 import { Navbar } from "./Navbar";
 const AdminDashboardPage = () => {
   return (
     <>
-      <div>
+      <Container maxWidth="xl">
         <Navbar />
         <DashboardTable />
-      </div>
+      </Container>
     </>
   );
 };

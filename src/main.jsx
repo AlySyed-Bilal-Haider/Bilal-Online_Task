@@ -6,21 +6,18 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { useState, useEffect } from "react";
-
 function renderRoutes(role) {
   switch (role) {
     case "admin":
-      console.log("role main", role);
       return (
         <Routes>
           <Route
             exact
             path="/admin/dashboard"
             element={<AdminDashboardPage />}
-          ></Route>
+          />
         </Routes>
       );
-
     default:
       return (
         <Routes>
@@ -39,18 +36,20 @@ function Main() {
   }, [state]);
 
   return (
-    <div className="h-full">
-      <div className="flex w-full">
-        <div className="w-full">
-          <div className="page-wrapper w-full py-10 px-5">
-            {!stateValue?.isAuthenticated
-              ? renderRoutes("none")
-              : renderRoutes("admin")}
+    <>
+      <div className="h-full" style={{ background: "black", height: "100vh" }}>
+        <div className="flex w-full">
+          <div className="w-full">
+            <div className="page-wrapper w-full  px-5">
+              {!stateValue?.isAuthenticated
+                ? renderRoutes("none")
+                : renderRoutes("admin")}
+            </div>
           </div>
         </div>
+        <SnackBar />
       </div>
-      <SnackBar />
-    </div>
+    </>
   );
 }
 

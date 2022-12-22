@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../authContext";
 import { showToast, GlobalContext } from "../globalContext";
 import { tokenExpireError } from "../authContext";
+
 const AdminLoginPage = () => {
   const schema = yup
     .object({
@@ -32,8 +33,11 @@ const AdminLoginPage = () => {
     let role = "admin";
     const response = await sdk.login(data.email, data.password, role);
     if (response.role == "admin") {
-      dispatch({ type: "LOGIN", payload: response });
       showToast(dispatchone, "user login successfully");
+      dispatch({ type: "LOGIN", payload: response });
+      setTimeout(() => {
+        navigate("/admin/dashboard");
+      }, 3000);
     } else {
       alert("please try agian");
       return false;
@@ -45,7 +49,7 @@ const AdminLoginPage = () => {
     let sdk = new MkdSDK();
     const path = sdk.check(role);
     // tokenExpireError(dispatch,"your token is expired";);
-  }, [role]);
+  }, []);
 
   return (
     <div className="w-full max-w-xs mx-auto">

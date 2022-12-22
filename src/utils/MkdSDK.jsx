@@ -45,6 +45,7 @@ export default function MkdSDK() {
   };
 
   this.callRestAPI = async function (payload, method) {
+    console.log("payload:", payload, "method:", method);
     const header = {
       "Content-Type": "application/json",
       "x-project": base64Encode,
@@ -62,7 +63,7 @@ export default function MkdSDK() {
           }
         );
         const jsonGet = await getResult.json();
-
+        console.log("table response:", jsonGet);
         if (getResult.status === 401) {
           throw new Error(jsonGet.message);
         }
@@ -80,7 +81,7 @@ export default function MkdSDK() {
           payload.limit = 10;
         }
         const paginateResult = await fetch(
-          this._baseurl + `/v1/api/rest/${this._table}/${method}`,
+          this._baseurl + `/v1/api/rest/${this._table}/PAGINATE`,
           {
             method: "post",
             headers: header,
@@ -104,26 +105,23 @@ export default function MkdSDK() {
   };
 
   this.check = async function (role) {
-    let token = localStorage.getItem("token");
-    console.log("token mkdSDK:", token);
+    let token = localStorage.getItem("storetoken");
+    console.log(token, "token");
     try {
-      const header = {
-        // "x-project": base64Encode,
-        Authorization: "Bearer " + token,
-      };
-      let payload = JSON.stringify({ role });
-      const getResult = await fetch(
-        `https://reacttask.mkdlabs.com/v2/api/lambda/check
-      `,
-        {
+      if (token) {
+        let payload = { role };
+        const getResult = await fetch(`${this._baseurl}/v2/api/lambda/check`, {
           method: "POST",
-          headers: header,
-          body: payload,
-        }
-      );
-      const jsonGet = await getResult.json();
-      console.log("jsonGet", jsonGet);
-      return jsonGet;
+          headers: {
+            "x-project": base64Encode,
+            Authorization: `Bearer${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+        const jsonGet = await getResult.json();
+        console.log("jsonGet", jsonGet);
+        return jsonGet;
+      }
     } catch (error) {
       console.log(error);
     }

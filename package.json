@@ -8,9 +8,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@hookform/resolvers": "^2.8.10",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.1",
     "axios": "^1.2.1",
     "react": "^18.0.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.31.2",
     "react-loading-skeleton": "^3.1.0",

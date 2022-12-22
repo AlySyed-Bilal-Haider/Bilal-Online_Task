@@ -1,6 +1,7 @@
 import React, { useReducer } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import MkdSDK from "./utils/MkdSDK";
-
 export const AuthContext = React.createContext();
 
 const initialState = {
@@ -15,7 +16,7 @@ const reducer = (state, action) => {
     case "LOGIN":
       const { role, token, user_id } = action.payload;
       localStorage.setItem("role", role);
-      localStorage.setItem("token", token);
+      localStorage.setItem("storetoken", token);
       return {
         ...state,
         isAuthenticated: true,
@@ -34,9 +35,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
-
 let sdk = new MkdSDK();
-
 export const tokenExpireError = (dispatch, errorMessage) => {
   const role = localStorage.getItem("role");
   if (errorMessage === "TOKEN_EXPIRED") {
@@ -46,11 +45,13 @@ export const tokenExpireError = (dispatch, errorMessage) => {
     window.location.href = "/" + role + "/login";
   }
 };
-
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   let token = localStorage.getItem("token");
-  React.useEffect(() => {}, []);
+
+  // React.useEffect(() => {
+  //   !token ? (window.location.href = "/admin/login") : "";
+  // }, [state]);
 
   return (
     <AuthContext.Provider
